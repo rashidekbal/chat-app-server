@@ -18,7 +18,7 @@ function add_new_online_users(id, socket) {
     imgSrc:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrLWKNduCw_8jK8-lg0p1K1t6X3ATRkhOkDg&s",
     id: id,
-    Name: "User_" + id[0] + id[1] + id[2] + id[3] + id[4],
+    Name: "PERSON-" + id[3] + id[4],
     placeHolder: "something",
   });
 
@@ -42,6 +42,7 @@ io.on("connection", (user) => {
   user.on("disconnect", () => {
     console.log(`user of id ${user.id} just got disconnected `);
     remove_disconneted_user(user.id, user);
+    user.broadcast.emit("removeUserdata", { id: user.id });
   });
   user.on("Messagep2pFromClient", (data) => {
     io.to(data.id).emit("Messagep2pFromServer", { msg: data.msg, id: user.id });
